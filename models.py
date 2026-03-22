@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from main import ejercicio_1
 """
 models.py
 
@@ -38,5 +39,8 @@ def main():
 
 if __name__ == "__main__":
     # Si necesitas hacer pruebas de tu función las puedes escribir acá
+    distancias, origen = ejercicio_1()
+    print("Distancias minimas: ", distancias)
+    print("Nodos de origen: ", origen)
     main()
 
