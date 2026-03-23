@@ -19,30 +19,69 @@ def dijkstra(M: list[list[float]], origin: int) -> list[list[float]]:
     lista con las distancia de las rutas y el origen de la arista
     con la que terminó la ruta
     """
-    # ---
+    # Obtenemos la cantidad de nodos(tamaño de la matriz)
+    n=len(M)
+    
     # Paso 1: Inicializa las distancias
-    # ---
-
-    # ---
-    # Paso 2: Marca el nodo permanente
-    # ---
-
-    # ---
+    D= [float("inf")]*n
+    D[origin]=0
+    P= [None]*n
+    ED= [False]*n
+    for nodo in range(n):
+        distancia_minima= float("inf")
+        u= -1
+        for i in range(n):
+            if not ED[i] and D[i] < distancia_minima:
+                distancia_minima = D[i]
+                u= i
+        # si u es -1, es pq los nodos restantes no estan conectados
+        if u == -1:
+            break
+        # Paso 2: Marca el nodo permanente
+        ED[u] = True
+        
     # Paso 3: Identifica los nodos vecinos disponibles
-    # ---
-
-    # ---
+        for v in range(n):
+            # hay una arista si el peso es mayor a cero
+            peso_arista= M[u][v]
+            # verificamos que haya conexion y que v sea un nodo no marcado
+            if peso_arista > 0 and not ED[v]:
     # Paso 4: Reetiquetado
-    # ---
+                #calculamos la distancia temporal
+                distancia_temporal=D[u] + peso_arista
+                #si la distancia temporal es menor que la almacenada en el vector, se actualiza el vector
+                if distancia_temporal < D[v]:
+                    D[v]= distancia_temporal
+                    P[v]= u 
+    return D,P
+    
+    
 
-    # ---
-    # Paso 5: Actualizar el nodo permanente
-    # ---
-    ...
+def minimal_distance(M: list[list[float]], origin: int, destination: int) -> float:
+    """
+    Devuelve la distancia mínima entre origin y destination.
+    Utiliza el algoritmo de Dijkstra para obtener las distancias.
+    """
+    D, _ = dijkstra(M, origin)
+    return D[destination]
 
-def minimal_distance(M: list[list[float]], origin:int, destination:int)-> float:
-    """Devuelve la distancia mínima entre el origin y destination"""
-    ...
+def reconstruct_path(P: list[int], origin: int, destination: int) -> list[int]:
+    """
+    Reconstruye la ruta óptima desde origin hasta destination
+    utilizando el arreglo de predecesores P obtenido de Dijkstra.
+    """
+    path = []
+    current = destination
+    while current != origin and current is not None:
+        path.append(current)
+        current = P[current]
+    if current == origin:
+        path.append(origin)
+        path.reverse()
+        return path
+    else:
+        # No hay camino
+        return []
 
 def ejercicio_1():
     """
@@ -58,6 +97,30 @@ def ejercicio_1():
     MD[2,1] = 3
     
     return dijkstra(MD, 0)
+
+def ejercicio_2():
+    """
+    Ejemplo que muestra la distancia mínima y el camino entre dos vértices.
+    """
+    n = 4
+    MD = zeros((n, n))
+    MD[0,1] = 9
+    MD[3,2] = 2
+    MD[0,3] = 6
+    MD[1,3] = 1
+    MD[2,1] = 3
+
+    # Obtener D y P desde el origen 0
+    D, P = dijkstra(MD, 0)
+
+    # Elegir dos vértices: por ejemplo, del 0 al 2
+    origen = 0
+    destino = 2
+    distancia = minimal_distance(MD, origen, destino)
+    camino = reconstruct_path(P, origen, destino)
+
+    print(f"Distancia mínima de {origen} a {destino}: {distancia}")
+    print(f"Camino óptimo: {camino}")
 
 def ejercicio_3a():
     """
@@ -80,8 +143,13 @@ def ejercicio_3a():
     M1[5,6] = M1[6,5] = 3
     M1[6,7] = M1[7,6] = 5
     
-    distancias = [dijkstra(M1, i) for i in range(n)]
-    return distancias
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M1, i)
+        # Convertir D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+    return resultado
 
 def ejercicio_3b():
     n = 4
@@ -93,8 +161,13 @@ def ejercicio_3b():
     M2[1,3] = 1
     M2[2,1] = 3
 
-    distancias = [dijkstra(M2, i) for i in range(n)]
-    return distancias
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M2, i)
+        # Convertir D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+    return resultado
     
 def ejercicio_3c():
     n = 4
@@ -107,14 +180,146 @@ def ejercicio_3c():
     M3[1,3] = 11
     M3[2,3] = 6
 
-    distancias = [dijkstra(M3, i) for i in range(n)]
-    return distancias
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M3, i)
+        # Convertir D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+    return resultado
 
 def ejercicio_4():
-    ...
+    """
+    Define la matriz de adyacencia del Ejercicio 4 y calcula las distancias minimas
+    """
+    n = 12
+    M4 = zeros((n, n))
+    
+    # Creamos la matriz de conexiones
+    M4[0, 1] = 9    # 1 -> 2
+    M4[0, 2] = 7    # 1 -> 3
+    M4[0, 3] = 3    # 1 -> 4
+    M4[0, 4] = 2    # 1 -> 5
+    M4[1, 5] = 4    # 2 -> 6
+    M4[1, 6] = 2    # 2 -> 7
+    M4[1, 7] = 1    # 2 -> 8
+    M4[2, 5] = 2    # 3 -> 6
+    M4[2, 6] = 7    # 3 -> 7
+    M4[3, 7] = 11   # 4 -> 8
+    M4[4, 6] = 11   # 5 -> 7
+    M4[4, 7] = 8    # 5 -> 8
+    M4[5, 8] = 6    # 6 -> 9
+    M4[5, 9] = 5    # 6 -> 10
+    M4[6, 8] = 4    # 7 -> 9
+    M4[6, 9] = 3    # 7 -> 10
+    M4[7, 9] = 5    # 8 -> 10
+    M4[7, 10] = 6   # 8 -> 1
+    M4[8, 11] = 4   # 9 -> 12
+    M4[9, 11] = 6   # 10 -> 12
+    M4[10, 11] = 6  # 11 -> 12
+    
+    #usamos el algoritmo dijkstra
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M4, i)
+        # Convertimos D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+
+    return resultado
 
 def main():
-    ...
+    """
+    Función principal que ejecuta los ejercicios y le da formato a las distancias
+    mínimas en forma de matriz.
+    """
+
+    print("=" * 70)
+    print(" EJERCICIO 3a: Distancias mínimas entre todos los vértices (Gráfica 1)")
+    print("=" * 70)
+    res3a = ejercicio_3a()
+    print("Matriz de distancias (fila = origen, columna = destino):")
+    print("   " + " ".join(f"{j:>3}" for j in range(8)))
+    for i in range(8):
+        D = res3a[i][0]
+        # Convertir a entero si es entero, sino mostrar con decimales
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):3d}")
+            else:
+                formatted.append(f"{d:5.1f}")
+        print(f"{i}: " + " ".join(formatted))
+    print()
+
+    print("=" * 70)
+    print(" EJERCICIO 3b: Distancias mínimas (Gráfica 2)")
+    print("=" * 70)
+    res3b = ejercicio_3b()
+    n = len(res3b)
+    print("Matriz de distancias:")
+    print("   " + " ".join(f"{j:>3}" for j in range(n)))
+    for i in range(n):
+        D = res3b[i][0]
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):3d}")
+            else:
+                formatted.append(f"{d:5.1f}")
+        print(f"{i}: " + " ".join(formatted))
+    print()
+
+    print("=" * 70)
+    print(" EJERCICIO 3c: Distancias mínimas (Gráfica 3)")
+    print("=" * 70)
+    res3c = ejercicio_3c()
+    n = len(res3c)
+    print("Matriz de distancias:")
+    print("   " + " ".join(f"{j:>3}" for j in range(n)))
+    for i in range(n):
+        D = res3c[i][0]
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):3d}")
+            else:
+                formatted.append(f"{d:5.1f}")
+        print(f"{i}: " + " ".join(formatted))
+    print()
+    
+    print("=" * 70)
+    print(" EJERCICIO 4: Distancias mínimas entre todos los vértices (12 nodos)")
+    print("=" * 70)
+    
+    res4 = ejercicio_4()
+    n = len(res4)
+    
+    print("Matriz de distancias (fila = origen, columna = destino):")
+    # Encabezado con los nodos del 1 al 12
+    print("     " + " ".join(f"{j+1:>4}" for j in range(n)))
+    print("   " + "-" * (5 * n))
+    
+    for i in range(n):
+        D = res4[i][0]
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):>4}")
+            else:
+                formatted.append(f"{d:>4.1f}")
+                
+        # Imprimimos la fila indicando el nodo de origen (1 al 12)
+        print(f"{i+1:>2} | " + " ".join(formatted))
+    print()
 
 if __name__ == "__main__":
     main()
