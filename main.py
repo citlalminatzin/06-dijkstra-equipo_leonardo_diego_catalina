@@ -192,11 +192,70 @@ def ejercicio_4():
     ...
 
 def main():
-    ejercicio_1()
-    ejercicio_2()
-    ejercicio_3a()
-    ejercicio_3b()
-    ejercicio_3c()
+    """
+    Función principal que ejecuta los ejercicios y le da formato a las distancias
+    mínimas en forma de matriz.
+    """
+
+    print("=" * 70)
+    print(" EJERCICIO 3a: Distancias mínimas entre todos los vértices (Gráfica 1)")
+    print("=" * 70)
+    res3a = ejercicio_3a()
+    print("Matriz de distancias (fila = origen, columna = destino):")
+    print("   " + " ".join(f"{j:>3}" for j in range(8)))
+    for i in range(8):
+        D = res3a[i][0]
+        # Convertir a entero si es entero, sino mostrar con decimales
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):3d}")
+            else:
+                formatted.append(f"{d:5.1f}")
+        print(f"{i}: " + " ".join(formatted))
+    print()
+
+    print("=" * 70)
+    print(" EJERCICIO 3b: Distancias mínimas (Gráfica 2)")
+    print("=" * 70)
+    res3b = ejercicio_3b()
+    n = len(res3b)
+    print("Matriz de distancias:")
+    print("   " + " ".join(f"{j:>3}" for j in range(n)))
+    for i in range(n):
+        D = res3b[i][0]
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):3d}")
+            else:
+                formatted.append(f"{d:5.1f}")
+        print(f"{i}: " + " ".join(formatted))
+    print()
+
+    print("=" * 70)
+    print(" EJERCICIO 3c: Distancias mínimas (Gráfica 3)")
+    print("=" * 70)
+    res3c = ejercicio_3c()
+    n = len(res3c)
+    print("Matriz de distancias:")
+    print("   " + " ".join(f"{j:>3}" for j in range(n)))
+    for i in range(n):
+        D = res3c[i][0]
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):3d}")
+            else:
+                formatted.append(f"{d:5.1f}")
+        print(f"{i}: " + " ".join(formatted))
+    print()
 
 if __name__ == "__main__":
     main()
