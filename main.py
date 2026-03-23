@@ -69,18 +69,19 @@ def reconstruct_path(P: list[int], origin: int, destination: int) -> list[int]:
     """
     Reconstruye la ruta óptima desde origin hasta destination
     utilizando el arreglo de predecesores P obtenido de Dijkstra.
-         current = P[current]
+    """
+    path = []
+    current = destination
+    while current != origin and current is not None:
+        path.append(current)
+        current = P[current]
     if current == origin:
         path.append(origin)
         path.reverse()
         return path
     else:
         # No hay camino
-        return []"""
-    path = []
-    current = destination
-    while current != origin and current is not None:
-        path.append(current)
+        return []
 
 def ejercicio_1():
     """
@@ -112,9 +113,9 @@ def ejercicio_2():
     # Obtener D y P desde el origen 0
     D, P = dijkstra(MD, 0)
 
-    # Elegir dos vértices: por ejemplo, del 0 al 1
+    # Elegir dos vértices: por ejemplo, del 0 al 2
     origen = 0
-    destino = 1
+    destino = 2
     distancia = minimal_distance(MD, origen, destino)
     camino = reconstruct_path(P, origen, destino)
 
@@ -176,7 +177,8 @@ def ejercicio_4():
     ...
 
 def main():
-    ...
+    ejercicio_1()
+    ejercicio_2()
 
 if __name__ == "__main__":
     main()
