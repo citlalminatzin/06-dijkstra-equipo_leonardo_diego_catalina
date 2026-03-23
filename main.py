@@ -57,9 +57,30 @@ def dijkstra(M: list[list[float]], origin: int) -> list[list[float]]:
     
     
 
-def minimal_distance(M: list[list[float]], origin:int, destination:int)-> float:
-    """Devuelve la distancia mínima entre el origin y destination"""
-    ...
+def minimal_distance(M: list[list[float]], origin: int, destination: int) -> float:
+    """
+    Devuelve la distancia mínima entre origin y destination.
+    Utiliza el algoritmo de Dijkstra para obtener las distancias.
+    """
+    D, _ = dijkstra(M, origin)
+    return D[destination]
+
+def reconstruct_path(P: list[int], origin: int, destination: int) -> list[int]:
+    """
+    Reconstruye la ruta óptima desde origin hasta destination
+    utilizando el arreglo de predecesores P obtenido de Dijkstra.
+         current = P[current]
+    if current == origin:
+        path.append(origin)
+        path.reverse()
+        return path
+    else:
+        # No hay camino
+        return []"""
+    path = []
+    current = destination
+    while current != origin and current is not None:
+        path.append(current)
 
 def ejercicio_1():
     """
@@ -75,6 +96,30 @@ def ejercicio_1():
     MD[2,1] = 3
     
     return dijkstra(MD, 0)
+
+def ejercicio_2():
+    """
+    Ejemplo que muestra la distancia mínima y el camino entre dos vértices.
+    """
+    n = 4
+    MD = zeros((n, n))
+    MD[0,1] = 9
+    MD[3,2] = 2
+    MD[0,3] = 6
+    MD[1,3] = 1
+    MD[2,1] = 3
+
+    # Obtener D y P desde el origen 0
+    D, P = dijkstra(MD, 0)
+
+    # Elegir dos vértices: por ejemplo, del 0 al 1
+    origen = 0
+    destino = 1
+    distancia = minimal_distance(MD, origen, destino)
+    camino = reconstruct_path(P, origen, destino)
+
+    print(f"Distancia mínima de {origen} a {destino}: {distancia}")
+    print(f"Camino óptimo: {camino}")
 
 def ejercicio_3a():
     """
