@@ -143,8 +143,13 @@ def ejercicio_3a():
     M1[5,6] = M1[6,5] = 3
     M1[6,7] = M1[7,6] = 5
     
-    distancias = [dijkstra(M1, i) for i in range(n)]
-    return distancias
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M1, i)
+        # Convertir D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+    return resultado
 
 def ejercicio_3b():
     n = 4
@@ -156,8 +161,13 @@ def ejercicio_3b():
     M2[1,3] = 1
     M2[2,1] = 3
 
-    distancias = [dijkstra(M2, i) for i in range(n)]
-    return distancias
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M2, i)
+        # Convertir D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+    return resultado
     
 def ejercicio_3c():
     n = 4
@@ -170,8 +180,13 @@ def ejercicio_3c():
     M3[1,3] = 11
     M3[2,3] = 6
 
-    distancias = [dijkstra(M3, i) for i in range(n)]
-    return distancias
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M3, i)
+        # Convertir D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+    return resultado
 
 def ejercicio_4():
     ...
@@ -179,6 +194,9 @@ def ejercicio_4():
 def main():
     ejercicio_1()
     ejercicio_2()
+    ejercicio_3a()
+    ejercicio_3b()
+    ejercicio_3c()
 
 if __name__ == "__main__":
     main()
