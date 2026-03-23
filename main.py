@@ -189,7 +189,44 @@ def ejercicio_3c():
     return resultado
 
 def ejercicio_4():
-    ...
+    """
+    Define la matriz de adyacencia del Ejercicio 4 y calcula las distancias minimas
+    """
+    n = 12
+    M4 = zeros((n, n))
+    
+    # Creamos la matriz de conexiones
+    M4[0, 1] = 9    # 1 -> 2
+    M4[0, 2] = 7    # 1 -> 3
+    M4[0, 3] = 3    # 1 -> 4
+    M4[0, 4] = 2    # 1 -> 5
+    M4[1, 5] = 4    # 2 -> 6
+    M4[1, 6] = 2    # 2 -> 7
+    M4[1, 7] = 1    # 2 -> 8
+    M4[2, 5] = 2    # 3 -> 6
+    M4[2, 6] = 7    # 3 -> 7
+    M4[3, 7] = 11   # 4 -> 8
+    M4[4, 6] = 11   # 5 -> 7
+    M4[4, 7] = 8    # 5 -> 8
+    M4[5, 8] = 6    # 6 -> 9
+    M4[5, 9] = 5    # 6 -> 10
+    M4[6, 8] = 4    # 7 -> 9
+    M4[6, 9] = 3    # 7 -> 10
+    M4[7, 9] = 5    # 8 -> 10
+    M4[7, 10] = 6   # 8 -> 1
+    M4[8, 11] = 4   # 9 -> 12
+    M4[9, 11] = 6   # 10 -> 12
+    M4[10, 11] = 6  # 11 -> 12
+    
+    #usamos el algoritmo dijkstra
+    resultado = []
+    for i in range(n):
+        D, P = dijkstra(M4, i)
+        # Convertimos D a lista de float nativos
+        D_float = [float(d) for d in D]
+        resultado.append((D_float, P))
+
+    return resultado
 
 def main():
     """
@@ -255,6 +292,33 @@ def main():
             else:
                 formatted.append(f"{d:5.1f}")
         print(f"{i}: " + " ".join(formatted))
+    print()
+    
+    print("=" * 70)
+    print(" EJERCICIO 4: Distancias mínimas entre todos los vértices (12 nodos)")
+    print("=" * 70)
+    
+    res4 = ejercicio_4()
+    n = len(res4)
+    
+    print("Matriz de distancias (fila = origen, columna = destino):")
+    # Encabezado con los nodos del 1 al 12
+    print("     " + " ".join(f"{j+1:>4}" for j in range(n)))
+    print("   " + "-" * (5 * n))
+    
+    for i in range(n):
+        D = res4[i][0]
+        formatted = []
+        for d in D:
+            if d == float('inf'):
+                formatted.append(" inf")
+            elif d.is_integer():
+                formatted.append(f"{int(d):>4}")
+            else:
+                formatted.append(f"{d:>4.1f}")
+                
+        # Imprimimos la fila indicando el nodo de origen (1 al 12)
+        print(f"{i+1:>2} | " + " ".join(formatted))
     print()
 
 if __name__ == "__main__":
