@@ -7,7 +7,7 @@
 ## Integrantes
 
 - (Si no modificas esta línea lloro) Babilonia, Aureliano
-- (Si no modificas esta línea lloro) Buendía, Aureliano
+- Infante Flores Leonardo
 - Marban Ayala Catalina
 
 ## Uso e instalación
